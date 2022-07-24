@@ -1,9 +1,10 @@
 # Sweep.io
-Remake of the windows game "Minesweeper"
+Remake of the windows game "Minesweeper"  
+Open the HTML file to start
 
 # Gameplay Mechanics
 Left click to open a square  
-Right click to place a flag where you think there is a bomb
+Right click to place a flag on the square you think there is a bomb
 
 # Rules
 The game is intended to have the same gameplay as the original  
