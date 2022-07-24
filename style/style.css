@@ -1,0 +1,38 @@
+nav{
+    background-color: lightgray;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-right: 100%;
+}
+
+nav h1{
+    margin-left: 610%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: x-large;
+}
+
+table, th, td{
+    border-radius: 1%;
+    border-color: black;
+    border-style: solid;
+}
+
+th, td{
+    background-color: darkgray;
+}
+
+td{
+    width: 30px;
+    height: 40px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-large;
+}
+
+table{
+    margin-top: 8%;
+    margin-left: 33%;
+    width: 400px;
+    height: 300px;
+}
