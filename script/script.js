@@ -1,6 +1,6 @@
 /*
 
-Code by Marcelomhm
+Code by marcelo-moura-mhm
 
 */
 
@@ -14,10 +14,41 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/*
 var bombrows = [getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7)]
 var bombcolumns = [getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7)]
-
+*/
 //Needs to remove duplicates
+
+var bombrows = new Array()
+var bombcolumns = new Array()
+
+//bombrows[x] == bombrows[y] && bombcolums[x] == bombcolums[y], then don't push
+
+var randomNumberRow, randomNumberColumn
+
+while(bombrows.length < 10){
+    randomNumberRow = getRandomInt(0, 7)
+    randomNumberColumn = getRandomInt(0, 7)
+
+    if(bombrows.indexOf(randomNumberRow) === -1 || bombcolumns.indexOf(randomNumberColumn) === -1){
+        bombrows.push(randomNumberRow)
+        bombcolumns.push(randomNumberColumn)
+        continue
+    }
+
+    var count = 0
+
+    for(var i = 0; i<bombrows.length; i++){
+        if(bombrows[i] == randomNumberRow && bombcolumns[i] == randomNumberColumn){
+            count++
+        }
+    }
+    if(count==0){
+        bombrows.push(randomNumberRow)
+        bombcolumns.push(randomNumberColumn)
+    }
+}
 
 var bomba = [bombrows[0], bombcolumns[0]]
 var bombb = [bombrows[1], bombcolumns[1]]
@@ -31,10 +62,14 @@ var bombi = [bombrows[8], bombcolumns[8]]
 var bombj = [bombrows[9], bombcolumns[9]]
 
 
+
+
 var bombs = [bomba, bombb, bombc, bombd, bombe, bombf, bombg, bombh, bombi, bombj]
 
 
-var table = Array(8)
+var table = new Array(8)
+
+
 table[0] = new Array(8)
 table[1] = new Array(8)
 table[2] = new Array(8)
@@ -43,6 +78,7 @@ table[4] = new Array(8)
 table[5] = new Array(8)
 table[6] = new Array(8)
 table[7] = new Array(8)
+
 
 
 function createTable(colums){
@@ -72,7 +108,6 @@ function checkWins(){
             }
         }
     }
-    console.log(count)
 
     if(count==0 && death != true){
         alert("You won!")
@@ -232,7 +267,6 @@ function pop(table, row, column){
                         }
                     }
                 }
-                console.log(table[row][column].isPopped)
             },10)
                 
         }
@@ -395,7 +429,6 @@ function placeNumbers(table){
 
 window.onload = function(){
     window.table_colums = document.getElementsByTagName("td")
-    console.log(window.table_colums)
     createTable(window.table_colums)
     placeBombs(table)
 
