@@ -6,7 +6,7 @@ Code by marcelo-moura-mhm
 
 
 window.table_colums = null
-var death = false
+var death, firstClick = false
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -14,18 +14,12 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/*
-var bombrows = [getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7)]
-var bombcolumns = [getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7), getRandomInt(0,7)]
-*/
-//Needs to remove duplicates
-
 var bombrows = new Array()
 var bombcolumns = new Array()
 
-//bombrows[x] == bombrows[y] && bombcolums[x] == bombcolums[y], then don't push
 
 var randomNumberRow, randomNumberColumn
+
 
 while(bombrows.length < 10){
     randomNumberRow = getRandomInt(0, 7)
@@ -39,7 +33,7 @@ while(bombrows.length < 10){
 
     var count = 0
 
-    for(var i = 0; i<bombrows.length; i++){
+    for(let i = 0; i<bombrows.length; i++){
         if(bombrows[i] == randomNumberRow && bombcolumns[i] == randomNumberColumn){
             count++
         }
@@ -62,8 +56,6 @@ var bombi = [bombrows[8], bombcolumns[8]]
 var bombj = [bombrows[9], bombcolumns[9]]
 
 
-
-
 var bombs = [bomba, bombb, bombc, bombd, bombe, bombf, bombg, bombh, bombi, bombj]
 
 
@@ -82,15 +74,15 @@ table[7] = new Array(8)
 
 
 function createTable(colums){
-    for(var x=0; x<64; x++){
+    for(let x=0; x<64; x++){
         table[Math.floor(x/8)][Math.floor(x%8)] = colums[x]
     }
 }
 
 function placeBombs(table){
-    for(var row=0; row<8; row++){
-        for(var column=0; column<8; column++){
-            for(var bomb in bombs){
+    for(let row=0; row<8; row++){
+        for(let column=0; column<8; column++){
+            for(let bomb in bombs){
                 if(row == bombs[bomb][0] && column == bombs[bomb][1]){
                     table[row][column].hasBomb = true
                 }
@@ -100,9 +92,10 @@ function placeBombs(table){
 }
 
 function checkWins(){
-    var count = 0
-    for(var row=0; row<8; row++){
-        for(var column=0; column<8; column++){
+    let count = 0
+    
+    for(let row=0; row<8; row++){
+        for(let column=0; column<8; column++){
             if(table[row][column].hasBomb != true && table[row][column].isPopped != true){
                 count += 1
             }
@@ -111,10 +104,52 @@ function checkWins(){
 
     if(count==0 && death != true){
         alert("You won!")
+        finishGame()
     }
 }
 
+function finishGame(){
+    var button = document.createElement("button")
+    var body = document.getElementById("body")
+    var div = document.createElement("div")
+            
+    button.style.backgroundColor = "darkgreen"
+    button.style.color = "white"
+    button.style.paddingTop = "2%"
+    button.style.paddingRight = "5%"
+    button.style.marginLeft = "43%"
+
+    button.addEventListener("click", function(){
+        window.location.reload()
+    })
+
+    div.style.textAlign = "center"
+    div.innerText = "Retry"
+    div.style.marginBottom = "60%"
+    div.style.marginLeft = "60%"
+    div.style.fontSize = "x-large"
+
+    body.appendChild(button)
+    button.appendChild(div)
+}
+
 function pop(table, row, column){
+
+    if(!firstClick){
+        if(table[row][column].hasBomb){
+            while(!firstClick){
+                let rndrow = getRandomInt(0, 7)
+                let rndcolumn = getRandomInt(0, 7)
+                if(!table[rndrow][rndcolumn].hasBomb){
+                    table[row][column].hasBomb = false
+                    table[rndrow][rndcolumn].hasBomb = true
+                    firstClick = true
+                }
+            }
+        }
+        firstClick = true
+    }
+
     if(!table[row][column].isPopped){
         table[row][column].isPopped = true
         table[row][column].style.backgroundColor = "darkslategray"
@@ -123,6 +158,7 @@ function pop(table, row, column){
             table[row][column].innerHTML = "💣"
             if(!death){
                 alert("You died!")
+                finishGame()
             }
             death = true
 
@@ -134,28 +170,6 @@ function pop(table, row, column){
                 }
             }
 
-            var button = document.createElement("button")
-            var body = document.getElementById("body")
-            var div = document.createElement("div")
-            
-            button.style.backgroundColor = "darkgreen"
-            button.style.color = "white"
-            button.style.paddingTop = "2%"
-            button.style.paddingRight = "5%"
-            button.style.marginLeft = "43%"
-
-            button.addEventListener("click", function(){
-                window.location.reload()
-            })
-
-            div.style.textAlign = "center"
-            div.innerText = "Retry"
-            div.style.marginBottom = "60%"
-            div.style.marginLeft = "60%"
-            div.style.fontSize = "x-large"
-
-            body.appendChild(button)
-            button.appendChild(div)
 
             table[row][column].innerHTML = "💣"
         }else if(table[row][column].number != 0){
@@ -277,8 +291,8 @@ function pop(table, row, column){
 
 
 function placeNumbers(table){
-    for(var row=0; row<8; row++){
-        for(var column=0; column<8; column++){
+    for(let row=0; row<8; row++){
+        for(let column=0; column<8; column++){
            if(table[row][column].hasBomb){
                 if(row==0 && column==0){
 
@@ -432,8 +446,8 @@ window.onload = function(){
     createTable(window.table_colums)
     placeBombs(table)
 
-    for(var row=0; row<8; row++){
-        for(var column=0; column<8; column++){
+    for(let row=0; row<8; row++){
+        for(let column=0; column<8; column++){
             table[row][column].number = 0
             table[row][column].addEventListener("click", function(row, column){
                 return function(){
