@@ -2,11 +2,13 @@
 
 Code by marcelo-moura-mhm
 
+Sweep.io v1.1
+
 */
 
 
 window.table_colums = null
-var death, firstClick = false
+var death, firstClick, hadBomb = false
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -136,17 +138,33 @@ function finishGame(){
 function pop(table, row, column){
 
     if(!firstClick){
+
+        placeBombs(table)
         if(table[row][column].hasBomb){
-            while(!firstClick){
-                let rndrow = getRandomInt(0, 7)
-                let rndcolumn = getRandomInt(0, 7)
-                if(!table[rndrow][rndcolumn].hasBomb){
-                    table[row][column].hasBomb = false
-                    table[rndrow][rndcolumn].hasBomb = true
-                    firstClick = true
+
+            for(let bomb in bombs){
+                if(bombs[bomb][0] == row && bombs[bomb][1] == column){
+                    let rndrow, rndcolumn
+                    let condition
+
+                    while(!condition){
+                        rndrow = getRandomInt(0, 7)
+                        rndcolumn = getRandomInt(0, 7)
+
+                        if(!table[rndrow][rndcolumn].hasBomb){
+                            bombs[bomb][0] = rndrow
+                            bombs[bomb][1] = rndcolumn
+                            condition = true
+                        }
+                    }
                 }
             }
+            table[row][column].hasBomb = false
+            placeBombs(table)
+            firstClick = true
         }
+            
+        placeNumbers(table)
         firstClick = true
     }
 
@@ -444,7 +462,6 @@ function placeNumbers(table){
 window.onload = function(){
     window.table_colums = document.getElementsByTagName("td")
     createTable(window.table_colums)
-    placeBombs(table)
 
     for(let row=0; row<8; row++){
         for(let column=0; column<8; column++){
@@ -468,6 +485,4 @@ window.onload = function(){
 
         }
     }
-
-    placeNumbers(table)
 }
