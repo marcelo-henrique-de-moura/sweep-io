@@ -18,9 +18,9 @@ Good luck and have fun!
 
 ![game image](https://i.imgur.com/hPHdFLM.png)
 
-#v1.1 Changelog
+# v1.1 Changelog
 
--The game will now always have 10 bombs
--No longer you can lose on your first click
+-The game will now always have 10 bombs  
+-No longer you can lose on your first click  
 
 more features to be added
