@@ -20,7 +20,10 @@ Good luck and have fun!
 
 # v1.1 Changelog
 
--The game will now always have 10 bombs  
--No longer you can lose on your first click  
+- The game will now always have 10 bombs  
+- No longer you can lose on your first click  
 
-more features to be added
+more features to be added, including:  
+
+- Timer (possibly with ReactJS)  
+- More, bigger grids
